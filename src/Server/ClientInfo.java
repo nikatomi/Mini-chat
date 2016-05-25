@@ -8,4 +8,5 @@ public class ClientInfo {
     public Listener listener;
     public Send send;
     public SendClient sendClient;//------
+    public volatile String name = "unknow";
 }

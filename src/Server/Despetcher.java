@@ -30,17 +30,23 @@ public class Despetcher extends Thread{
                 clients.get(i).send.addMessage(message+" 074");
             }else {
                 ClientInfo clientInfo = clients.get(i);
-                clientInfo.send.addMessage(message);
+                String name = client.name.substring(0,client.name.indexOf("@name027!"));
+                clientInfo.send.addMessage(name+" : "+message);
             }
         }
     }
 
     public synchronized void despechMessage(ClientInfo clientInfo,String message){
         Socket socket = clientInfo.socket;
-
-        messages.add(message);
-        tempClient.add(clientInfo);
-        notify();
+        int index = message.indexOf("@name027!");
+        if(index != -1){
+            clientInfo.name = message;
+            notify();
+        }else {
+            messages.add(message);
+            tempClient.add(clientInfo);
+            notify();
+        }
     }
 
     public synchronized void addClient(ClientInfo clientInfo){

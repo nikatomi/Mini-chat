@@ -1,7 +1,7 @@
 package Server;
 
 import Client.Client;
-import com.google.gson.Gson;
+
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -13,13 +13,13 @@ public class SendClient extends Thread{
     private PrintStream print;
     private Vector<ClientInfo>clients = new Vector<>();
     private ClientInfo clientInfo;
-    Gson gson;
+
 
     public SendClient(ClientInfo clientInfo) throws IOException {
         this.clientInfo = clientInfo;
         Socket socket = clientInfo.socket;
         print = new PrintStream(socket.getOutputStream());
-        gson = new Gson();
+
     }
 
     public synchronized void addClient(ClientInfo clientInfo){
@@ -35,8 +35,15 @@ public class SendClient extends Thread{
         }
     }
 
-    private void sendNameClientBar(ClientInfo client) {
-        String st = client.socket.getInetAddress().getHostAddress();
+    private synchronized void sendNameClientBar(ClientInfo client) {
+        if(client.name == "unknow"){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        String st = client.name;
         print.println(st);
         print.flush();
     }

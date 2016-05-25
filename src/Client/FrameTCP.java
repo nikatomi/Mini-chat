@@ -24,7 +24,7 @@ public class FrameTCP extends JFrame{
         setSize(new Dimension(500,260));
         setSize(500,260);
         setTitle("Chat");
-
+        name = JOptionPane.showInputDialog(null,"Введите ваше имя","Ваше имя",JOptionPane.OK_OPTION);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         JPanel outputPanel = new JPanel(new BorderLayout());

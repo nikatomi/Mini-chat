@@ -1,6 +1,5 @@
 package Client;
 
-
 import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.concurrent.SynchronousQueue;
@@ -16,14 +15,21 @@ public class ClientThread extends Thread{
 
     @Override
     public void run() {
-        //Scanner sc = new Scanner(System.in);
+
         while (!isInterrupted()){
-           // String messag = sc.nextLine();
-            String messag = frameTCP.message;
+            String messag;
+            if(frameTCP.name != null){
+                 messag = frameTCP.name + "@name027!";
+            }else{
+                 messag = frameTCP.message;
+            }
+
+
             if(messag != null) {
                 printStream.println(messag);
                 printStream.flush();
                 frameTCP.message = null;
+                frameTCP.name = null;
             }
         }
     }
