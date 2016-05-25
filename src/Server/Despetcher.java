@@ -9,6 +9,7 @@ public class Despetcher extends Thread{
 
     private Vector messages = new Vector();
     private Vector<ClientInfo> clients = new Vector<>();
+    private Vector<ClientInfo>tempClient = new Vector<>();
 
     private synchronized String getMessagQueue(){
         while(messages.size() == 0){
@@ -23,17 +24,22 @@ public class Despetcher extends Thread{
         return message;
     }
 
-    private synchronized void setMessageAllClients(String message){
+    private synchronized void setMessageAllClients(String message,ClientInfo client){
         for(int i = 0;i<clients.size();i++){
-            ClientInfo clientInfo = clients.get(i);
-            clientInfo.send.addMessage(message);
+            if(clients.get(i) == client){
+                clients.get(i).send.addMessage(message+" 074");
+            }else {
+                ClientInfo clientInfo = clients.get(i);
+                clientInfo.send.addMessage(message);
+            }
         }
     }
 
     public synchronized void despechMessage(ClientInfo clientInfo,String message){
         Socket socket = clientInfo.socket;
-        String name = socket.getInetAddress().getHostAddress();
-        messages.add(name+" : "+message);
+
+        messages.add(message);
+        tempClient.add(clientInfo);
         notify();
     }
 
@@ -53,8 +59,15 @@ public class Despetcher extends Thread{
 
         while (true){
             String message = getMessagQueue();
-            setMessageAllClients(message);
+            ClientInfo client = getTempClient();
+            setMessageAllClients(message,client);
         }
+    }
+
+    private ClientInfo getTempClient() {
+        ClientInfo clientInfo = tempClient.get(0);
+        tempClient.removeElementAt(0);
+        return clientInfo;
     }
 
     public Vector getVectorClient(){//----------

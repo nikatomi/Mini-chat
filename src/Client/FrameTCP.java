@@ -18,6 +18,7 @@ public class FrameTCP extends JFrame{
     public String name;
     public TextArea listClient;
     public Style defaultStyle;
+    public Style yourMessage;
     public FrameTCP(){
 
         setSize(new Dimension(500,260));
@@ -30,6 +31,7 @@ public class FrameTCP extends JFrame{
         textArea = new JTextPane();
         textArea.setPreferredSize(new Dimension(335,100));
         style();
+        styleYourMessage();
         JScrollPane scrollPane = new JScrollPane(textArea);
        // textArea.setCaretPosition(textArea.getDocument().getLength());
         textArea.setBackground(Color.LIGHT_GRAY);
@@ -59,5 +61,12 @@ public class FrameTCP extends JFrame{
         defaultStyle = textArea.addStyle("default",null);
         StyleConstants.setFontFamily(defaultStyle,"comic sans");
         StyleConstants.setFontSize(defaultStyle,18);
+        StyleConstants.setForeground(defaultStyle,Color.magenta);
+    }
+
+    private void styleYourMessage(){
+        yourMessage = textArea.addStyle("yourMessage",defaultStyle);
+        StyleConstants.setForeground(yourMessage,Color.BLUE);
+        StyleConstants.setItalic(yourMessage,true);
     }
 }

@@ -4,6 +4,7 @@ package Client;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.Style;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,19 +30,31 @@ public class Client {
             Matcher mm = p.matcher(messag);
             boolean b = mm.matches();
            // int index = messag.indexOf("Server.ClientInfo@");
-            System.out.println(messag);
+           // System.out.println(messag);
             if(b){
                 frameTCP.listClient.insert(messag+"\n",0);
             }else {
-                String m = messag + "\n";
-                Document doc = frameTCP.textArea.getDocument();
-                try {
-                    doc.insertString(doc.getLength(), m, frameTCP.defaultStyle);
-                } catch (BadLocationException e) {
-                    e.printStackTrace();
-                }
+                int index = messag.indexOf(" 074");
+                    if(index != -1) {
+                        String m = messag.substring(0,index)+"\n";
+                        insertMessage(frameTCP,m,frameTCP.yourMessage);
+                    }else {
+                        String m = messag + "\n";
+                        insertMessage(frameTCP, m, frameTCP.defaultStyle);
+                    }
             }
         }
     }
-}
+
+
+    private static void insertMessage(FrameTCP frameTCP, String m, Style style){
+        Document doc = frameTCP.textArea.getDocument();
+        try {
+            doc.insertString(doc.getLength(), m, style);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+
 

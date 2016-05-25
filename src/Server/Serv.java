@@ -25,8 +25,8 @@ public class Serv{
             Socket serverSocket = server.accept();
             ClientInfo clientInfo = new ClientInfo();
             clientInfo.socket = serverSocket;
-            System.out.println(InetAddress.getLocalHost().getHostAddress());
-            System.out.println(InetAddress.getLocalHost().getHostAddress());
+//            System.out.println(InetAddress.getLocalHost().getHostAddress());
+//            System.out.println(InetAddress.getLocalHost().getHostAddress());
 
             SendClient sendClient = new SendClient(clientInfo);//-------
             clientInfo.sendClient = sendClient;//--------
